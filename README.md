@@ -13,6 +13,8 @@ This is an implementation of **[Google reCaptcha service](https://www.google.com
 
 ### Install
 
+**Notice:** The plugin is currently on alpha stage. This plugin must not be used on production environments.
+
 This plugin must be installed as any other plugin for Common Utilities:
 
 1. Download **[latest version](https://github.com/bitcero/reCaptcha/archive/master.zip)** of plugin.
