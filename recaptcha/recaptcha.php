@@ -29,7 +29,6 @@
  */
 class RecaptchaCUPlugin extends RMIPlugin
 {
-
     public function __construct()
     {
 
@@ -46,7 +45,6 @@ class RecaptchaCUPlugin extends RMIPlugin
             'dir' => 'recaptcha',
             'updateurl' => 'https://www.xoopsmexico.net/modules/vcontrol/'
         );
-
     }
 
     public function on_install()
@@ -71,7 +69,6 @@ class RecaptchaCUPlugin extends RMIPlugin
 
     public function options()
     {
-
         $options['siteKey'] = array(
             'caption' => __('reCaptcha site key', 'recaptcha'),
             'desc' => sprintf(__('Get the site key from you <a href="%s" target="_blank">reCpatcha control panel</a>.', 'recaptcha'), 'https://www.google.com/recaptcha/admin#list'),
@@ -133,14 +130,13 @@ class RecaptchaCUPlugin extends RMIPlugin
         );
 
         return $options;
-
     }
 
     public function verify()
     {
         global $common, $xoopsUser;
 
-        if($xoopsUser->isAdmin() && $this->settings('admins') == 0){
+        if ($xoopsUser->isAdmin() && $this->settings('admins') == 0) {
             return true;
         }
 
@@ -152,10 +148,8 @@ class RecaptchaCUPlugin extends RMIPlugin
         $response = $common->httpRequest()->post('g-recaptcha-response', 'string', '');
         $ip = $_SERVER['REMOTE_ADDR'];
 
-        if('' == $secret || '' == $response){
-
-            if($xoopsUser->isAdmin())
-            {
+        if ('' == $secret || '' == $response) {
+            if ($xoopsUser->isAdmin()) {
                 showMessage(__('Secret key or response captcha has not been provided', 'recaptcha'));
             }
             return false;
@@ -193,9 +187,8 @@ class RecaptchaCUPlugin extends RMIPlugin
             // close cURL resource, and free up system resources
             curl_close($ch);
 
-            // No cURL? Use an alternative code
+        // No cURL? Use an alternative code
         } else {
-
             $context_options = array(
                 'http' => array(
                     'method' => 'POST',
@@ -222,10 +215,9 @@ class RecaptchaCUPlugin extends RMIPlugin
         $response = json_decode($response, true);
 
         return $response['success'];
-
     }
 
-    static function getInstance()
+    public static function getInstance()
     {
         static $instance;
 
@@ -235,5 +227,4 @@ class RecaptchaCUPlugin extends RMIPlugin
 
         return $instance;
     }
-
 }

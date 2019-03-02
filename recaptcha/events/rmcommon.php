@@ -35,8 +35,8 @@ class RecaptchaPluginRmcommonPreload
      * @param array $services All added services
      * @return array
      */
-    public function eventRmcommonGetServices( $services ){
-
+    public function eventRmcommonGetServices($services)
+    {
         $services[] = array(
             'id'            => 'recaptcha', // provider id
             'name'          => 'reCaptcha for Xoops', // Provider name
@@ -47,7 +47,5 @@ class RecaptchaPluginRmcommonPreload
         );
 
         return $services;
-
     }
-    
 }

@@ -48,7 +48,6 @@ class RecaptchaService extends \Common\Core\Helpers\ServiceAbstract implements \
         if ('' == $this->settings->siteKey && $xoopsUser->isAdmin()) {
             showMessage(__('reCaptcha site key has not been specified in reCaptcha plugin. Please correct this.', 'recaptcha'), RMMSG_WARN);
         }
-
     }
 
     public function render()
@@ -65,7 +64,6 @@ class RecaptchaService extends \Common\Core\Helpers\ServiceAbstract implements \
         $this::$instances++;
 
         return '<div id="recaptcha-' . ($this::$instances - 1) . '"></div>';
-
     }
 
     public function verify()
@@ -79,12 +77,13 @@ class RecaptchaService extends \Common\Core\Helpers\ServiceAbstract implements \
     /**
      * Singleton method
      */
-    static function getInstance()
+    public static function getInstance()
     {
         static $instance;
 
-        if (isset($instance))
+        if (isset($instance)) {
             return $instance;
+        }
 
         $instance = new RecaptchaService();
 
