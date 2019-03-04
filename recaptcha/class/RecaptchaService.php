@@ -39,7 +39,7 @@ class RecaptchaService extends \Common\Core\Helpers\ServiceAbstract implements \
 
         $this->settings = RMSettings::plugin_settings('recaptcha', true);
 
-        if ($this->settings->admins == 0) {
+        if (0 == $this->settings->admins) {
             return true;
         }
 
@@ -54,7 +54,7 @@ class RecaptchaService extends \Common\Core\Helpers\ServiceAbstract implements \
     {
         global $common;
 
-        if ($this->settings->admins == 0) {
+        if (0 == $this->settings->admins) {
             return null;
         }
 
@@ -71,6 +71,7 @@ class RecaptchaService extends \Common\Core\Helpers\ServiceAbstract implements \
         global $common;
 
         $plugin = $common->plugins()->load('recaptcha');
+
         return $plugin->verify();
     }
 
@@ -85,7 +86,7 @@ class RecaptchaService extends \Common\Core\Helpers\ServiceAbstract implements \
             return $instance;
         }
 
-        $instance = new RecaptchaService();
+        $instance = new self();
 
         return $instance;
     }

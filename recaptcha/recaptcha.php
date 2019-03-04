@@ -31,20 +31,19 @@ class RecaptchaCUPlugin extends RMIPlugin
 {
     public function __construct()
     {
-
         // Load language
         load_plugin_locale('recaptcha', '', 'rmcommon');
 
-        $this->info = array(
+        $this->info = [
             'name' => __('reCaptcha for Xoops', 'recaptcha'),
             'description' => __('reCaptcha service for Common Utilities and Xoops', 'recaptcha'),
-            'version' => array('major' => 0, 'minor' => 0, 'revision' => 5, 'stage' => -2, 'name' => 'reCaptcha for Xoops'),
+            'version' => ['major' => 0, 'minor' => 0, 'revision' => 5, 'stage' => -2, 'name' => 'reCaptcha for Xoops'],
             'author' => 'Eduardo Cortés',
             'email' => 'i.bitcero@gmail.com',
             'web' => 'http://eduardocortes.mx',
             'dir' => 'recaptcha',
-            'updateurl' => 'https://www.xoopsmexico.net/modules/vcontrol/'
-        );
+            'updateurl' => 'https://www.xoopsmexico.net/modules/vcontrol/',
+        ];
     }
 
     public function on_install()
@@ -69,23 +68,23 @@ class RecaptchaCUPlugin extends RMIPlugin
 
     public function options()
     {
-        $options['siteKey'] = array(
+        $options['siteKey'] = [
             'caption' => __('reCaptcha site key', 'recaptcha'),
             'desc' => sprintf(__('Get the site key from you <a href="%s" target="_blank">reCpatcha control panel</a>.', 'recaptcha'), 'https://www.google.com/recaptcha/admin#list'),
             'fieldtype' => 'textbox',
             'valuetype' => 'text',
-            'value' => ''
-        );
+            'value' => '',
+        ];
 
-        $options['secret'] = array(
+        $options['secret'] = [
             'caption' => __('reCaptcha secret key', 'recaptcha'),
             'desc' => sprintf(__('Get the secret key from you <a href="%s" target="_blank">reCpatcha control panel</a>.', 'recaptcha'), 'https://www.google.com/recaptcha/admin#list'),
             'fieldtype' => 'textbox',
             'valuetype' => 'text',
-            'value' => ''
-        );
+            'value' => '',
+        ];
 
-        $options['theme'] = array(
+        $options['theme'] = [
             'caption' => __('Color theme for widget', 'recaptcha'),
             'desc' => '',
             'fieldtype' => 'radio',
@@ -93,11 +92,11 @@ class RecaptchaCUPlugin extends RMIPlugin
             'value' => 'light',
             'options' => [
                 __('Light', 'recaptcha') => 'light',
-                __('Dark', 'recaptcha') => 'dark'
-            ]
-        );
+                __('Dark', 'recaptcha') => 'dark',
+            ],
+        ];
 
-        $options['type'] = array(
+        $options['type'] = [
             'caption' => __('Type of CAPTCHA to serve', 'recaptcha'),
             'desc' => '',
             'fieldtype' => 'radio',
@@ -105,11 +104,11 @@ class RecaptchaCUPlugin extends RMIPlugin
             'value' => 'image',
             'options' => [
                 __('Image', 'recaptcha') => 'image',
-                __('Audio', 'recaptcha') => 'audio'
-            ]
-        );
+                __('Audio', 'recaptcha') => 'audio',
+            ],
+        ];
 
-        $options['size'] = array(
+        $options['size'] = [
             'caption' => __('Size of the widget', 'recaptcha'),
             'desc' => '',
             'fieldtype' => 'radio',
@@ -117,17 +116,17 @@ class RecaptchaCUPlugin extends RMIPlugin
             'value' => 'normal',
             'options' => [
                 __('Compact', 'recaptcha') => 'compact',
-                __('Normal', 'recaptcha') => 'normal'
-            ]
-        );
+                __('Normal', 'recaptcha') => 'normal',
+            ],
+        ];
 
-        $options['admins'] = array(
+        $options['admins'] = [
             'caption' => __('Show CAPTCHA to site admins?', 'recaptcha'),
             'desc' => '',
             'fieldtype' => 'yesno',
             'valuetype' => 'int',
-            'value' => '1'
-        );
+            'value' => '1',
+        ];
 
         return $options;
     }
@@ -136,13 +135,13 @@ class RecaptchaCUPlugin extends RMIPlugin
     {
         global $common, $xoopsUser;
 
-        if ($xoopsUser->isAdmin() && $this->settings('admins') == 0) {
+        if ($xoopsUser->isAdmin() && 0 == $this->settings('admins')) {
             return true;
         }
 
         $remote_url = trim('https://www.google.com/recaptcha/api/siteverify');
 
-        $is_https = (substr($remote_url, 0, 5) == 'https');
+        $is_https = ('https' == mb_substr($remote_url, 0, 5));
 
         $secret = $this->settings('secret');
         $response = $common->httpRequest()->post('g-recaptcha-response', 'string', '');
@@ -152,18 +151,18 @@ class RecaptchaCUPlugin extends RMIPlugin
             if ($xoopsUser->isAdmin()) {
                 showMessage(__('Secret key or response captcha has not been provided', 'recaptcha'));
             }
+
             return false;
         }
 
         $fields_string = http_build_query([
             'secret' => $secret,
             'response' => $response,
-            'remoteip' => $ip
+            'remoteip' => $ip,
         ]);
 
         // Run this code if you have cURL enabled
         if (function_exists('curl_init')) {
-
             // create a new cURL resource
             $ch = curl_init();
 
@@ -189,14 +188,14 @@ class RecaptchaCUPlugin extends RMIPlugin
 
         // No cURL? Use an alternative code
         } else {
-            $context_options = array(
-                'http' => array(
+            $context_options = [
+                'http' => [
                     'method' => 'POST',
                     'header' => "Content-type: application/x-www-form-urlencoded\r\n" .
-                        "Content-Length: " . strlen($fields_string) . "\r\n",
-                    'content' => $fields_string
-                )
-            );
+                        'Content-Length: ' . mb_strlen($fields_string) . "\r\n",
+                    'content' => $fields_string,
+                ],
+            ];
 
             $context = stream_context_create($context_options);
             $fp = fopen($remote_url, 'r', false, $context);
@@ -207,7 +206,7 @@ class RecaptchaCUPlugin extends RMIPlugin
 
             $response = @stream_get_contents($fp);
 
-            if ($response === false) {
+            if (false === $response) {
                 throw new Exception("Problem reading data from $remote_url, $php_errormsg");
             }
         }
@@ -222,7 +221,7 @@ class RecaptchaCUPlugin extends RMIPlugin
         static $instance;
 
         if (!isset($instance)) {
-            $instance = new RecaptchaCUPlugin();
+            $instance = new self();
         }
 
         return $instance;

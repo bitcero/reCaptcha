@@ -26,10 +26,8 @@
  * @url          http://www.redmexico.com.mx
  * @url          http://www.eduardocortes.mx
  */
-
 class RecaptchaPluginRmcommonPreload
 {
-
     /**
      * For new RMCommon service component
      * @param array $services All added services
@@ -37,14 +35,14 @@ class RecaptchaPluginRmcommonPreload
      */
     public function eventRmcommonGetServices($services)
     {
-        $services[] = array(
-            'id'            => 'recaptcha', // provider id
-            'name'          => 'reCaptcha for Xoops', // Provider name
-            'description'   => __('reCatpcha service for Common Utilities', 'recaptcha'),
-            'service'       => 'captcha', // Service to provide
-            'file'          => RMCPATH . '/plugins/recaptcha/class/RecaptchaService.php',
-            'class'         => 'RecaptchaService'
-        );
+        $services[] = [
+            'id' => 'recaptcha', // provider id
+            'name' => 'reCaptcha for Xoops', // Provider name
+            'description' => __('reCatpcha service for Common Utilities', 'recaptcha'),
+            'service' => 'captcha', // Service to provide
+            'file' => RMCPATH . '/plugins/recaptcha/class/RecaptchaService.php',
+            'class' => 'RecaptchaService',
+        ];
 
         return $services;
     }
